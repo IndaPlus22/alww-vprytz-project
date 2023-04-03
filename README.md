@@ -4,6 +4,10 @@
 
 See [SPECIFICATION.md](SPECIFICATION.md) for more information about tech stack, work distribution, features, feasibility, etc.
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## Authors
 
 - Vilhelm Prytz <vilhelm@prytznet.se> / <vprytz@kth.se>
