@@ -1,17 +1,15 @@
-# Welcome to MkDocs
+# Osqspeed
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+"**Osqspeed**": measurement server and app/program on phone. For users who are on the KTH campus, the program/app measures speed and latency once a minute and reports this together with location (available via API through the phone) to a server. Collected data is used to create a coverage map (Mb/s on average in different locations).
 
-## Commands
+- Project URL: [https://github.com/IndaPlus22/alww-vprytz-project](https://github.com/IndaPlus22/alww-vprytz-project)
+- Project specification: [SPECIFICATION.md](https://github.com/IndaPlus22/alww-vprytz-project/blob/main/SPECIFICATION.md)
 
-- `mkdocs new [dir-name]` - Create a new project.
-- `mkdocs serve` - Start the live-reloading docs server.
-- `mkdocs build` - Build the documentation site.
-- `mkdocs -h` - Print help message and exit.
+## License
 
-## Project layout
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## Authors
+
+- Vilhelm Prytz <vilhelm@prytznet.se> / <vprytz@kth.se>
+- Albin Wallenius Woxnerud <albin@woxnerud.se> / <alww@kth.se>
