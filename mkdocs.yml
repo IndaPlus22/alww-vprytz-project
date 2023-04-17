@@ -1,7 +1,7 @@
 site_name: Osqspeed
 site_url: https://indaplus22.github.io/alww-vprytz-project
 repo_url: https://github.com/IndaPlus22/alww-vprytz-project/tree/main
-edit_uri: edit/main/docs
+edit_uri: edit/main/docs/
 
 theme:
   name: material
@@ -12,4 +12,6 @@ theme:
 plugins:
   - git-revision-date-localized:
       enable_creation_date: true
-  - git-authors
+  - git-committers:
+      repository: IndaPlus22/alww-vprytz-project
+      branch: main
