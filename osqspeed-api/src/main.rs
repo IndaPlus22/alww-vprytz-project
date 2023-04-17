@@ -1,8 +1,8 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, middleware, post, web, App, HttpResponse, HttpServer, Responder};
 
 // port and host
 const PORT: u16 = 8080;
-const HOST: &str = "127.0.0.1";
+const HOST: &str = "0.0.0.0";
 
 #[get("/")]
 async fn hello() -> impl Responder {
@@ -23,6 +23,7 @@ async fn main() -> std::io::Result<()> {
     println!("Starting server at http://{}:{}", HOST, PORT);
     HttpServer::new(|| {
         App::new()
+            .wrap(middleware::DefaultHeaders::new().add(("Server", "osqspeed-api powered by Rust")))
             .service(hello)
             .service(echo)
             .route("/hey", web::get().to(manual_hello))
