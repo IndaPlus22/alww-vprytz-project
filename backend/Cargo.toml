@@ -8,16 +8,10 @@ edition = "2021"
 [dependencies]
 actix-web = "4"
 config = "0.13.1"
-diesel = { version = "2", features = ["postgres", "r2d2", "chrono"] }
-serde = { version = "1.0", features = ["derive"] }
-dotenv = "0.15"
 deadpool-postgres = { version = "0.10.2", features = ["serde"] }
+derive_more = "0.99.7"
+dotenv = "0.15.0"
+serde = { version = "1.0.137", features = ["derive"] }
 tokio-pg-mapper = "0.2.0"
 tokio-pg-mapper-derive = "0.2.0"
 tokio-postgres = "0.7.6"
-uuid = { version = "1", features = ["v4", "serde"] }
-env_logger = "0.10"
-log = "0.4"
-chrono = "0.4.24"
-deadpool-diesel = { version = "0.4.1", features = ["postgres"] }
-r2d2 = "0.8.10"
