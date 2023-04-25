@@ -1,5 +1,3 @@
-use actix_web::web;
-use deadpool_diesel::postgres::Pool;
 use diesel::prelude::*;
 use uuid::Uuid;
 
@@ -8,14 +6,15 @@ use crate::models;
 type DbError = Box<dyn std::error::Error + Send + Sync>;
 
 /// Run query using Diesel to find user by uid and return it.
-pub fn find_user_by_uid(pool: web::Data<Pool>, uid: Uuid) -> Result<Option<models::User>, DbError> {
+pub fn find_user_by_uid(
+    conn: &mut PgConnection,
+    uid: Uuid,
+) -> Result<Option<models::User>, DbError> {
     use crate::schema::users::dsl::*;
-
-    let conn = pool.get();
 
     let user = users
         .filter(id.eq(uid.to_string()))
-        .first::<models::User>(&mut conn)
+        .first::<models::User>(conn)
         .optional()?;
 
     Ok(user)

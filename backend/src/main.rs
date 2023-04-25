@@ -3,9 +3,10 @@ extern crate diesel;
 
 use actions::find_user_by_uid;
 use actix_web::{error, get, middleware, post, web, App, HttpResponse, HttpServer, Responder};
-use deadpool_diesel::postgres::Pool;
+use diesel::r2d2::ConnectionManager;
+use diesel::r2d2::Pool;
 use diesel::PgConnection;
-use tokio_postgres::NoTls;
+
 use uuid::Uuid;
 
 mod actions;
@@ -23,16 +24,21 @@ use ::config::Config;
 /// - a user UID from the request path
 #[get("/user/{user_id}")]
 async fn get_user(
-    pool: web::Data<Pool>,
+    pool: PostgresPool,
     user_uid: web::Path<Uuid>,
 ) -> actix_web::Result<impl Responder> {
     let user_uid = user_uid.into_inner();
 
     // use web::block to offload blocking Diesel queries without blocking server thread
-    let user = web::block(move || actions::find_user_by_uid(pool, user_uid))
-        .await?
-        // map diesel query errors to a 500 error response
-        .map_err(error::ErrorInternalServerError)?;
+    let user = web::block(move || {
+        // note that obtaining a connection from the pool is also potentially blocking
+        let mut conn = pool.get()?;
+
+        actions::find_user_by_uid(&mut conn, user_uid)
+    })
+    .await?
+    // map diesel query errors to a 500 error response
+    .map_err(error::ErrorInternalServerError)?;
 
     Ok(match user {
         // user was found; return 200 response with JSON formatted user object
@@ -50,15 +56,15 @@ async fn get_user(
 /// - a JSON form containing new user info from the request body
 #[post("/user")]
 async fn add_user(
-    pool: web::Data<Pool>,
+    pool: PostgresPool,
     form: web::Json<models::NewUser>,
 ) -> actix_web::Result<impl Responder> {
     // use web::block to offload blocking Diesel queries without blocking server thread
     let user = web::block(move || {
         // note that obtaining a connection from the pool is also potentially blocking
-        let mut conn = pool.get();
+        let mut conn = pool.get()?;
 
-        actions::insert_new_user(&mut conn, &form.name)
+        actions::insert_new_user(&mut conn, &form.name, &form.email)
     })
     .await?
     // map diesel query errors to a 500 error response
@@ -66,6 +72,14 @@ async fn add_user(
 
     // user was added successfully; return 201 response with new user info
     Ok(HttpResponse::Created().json(user))
+}
+
+pub type PostgresPool = Pool<ConnectionManager<PgConnection>>;
+pub fn get_pool(database_url: String) -> PostgresPool {
+    let migr = ConnectionManager::<PgConnection>::new(database_url);
+    r2d2::Pool::builder()
+        .build(migr)
+        .expect("could not build connection pool")
 }
 
 #[actix_web::main]
@@ -81,7 +95,7 @@ async fn main() -> std::io::Result<()> {
     let config: BackendConfig = config_.try_deserialize().unwrap();
 
     // initialize DB pool outside of `HttpServer::new` so that it is shared across all workers
-    let pool = initialize_db_pool(config);
+    let pool = get_pool(config.database_url.clone());
 
     let server = HttpServer::new(move || {
         App::new()
@@ -98,10 +112,4 @@ async fn main() -> std::io::Result<()> {
     log::info!("Server running at http://{}", config.server_addr);
 
     server.await
-}
-
-/// Initializes a database connection pool.
-fn initialize_db_pool(config: BackendConfig) -> Pool {
-    let pool = config.pg.create_pool(None, NoTls).unwrap();
-    pool
 }

@@ -2,5 +2,5 @@ use serde::Deserialize;
 #[derive(Debug, Default, Deserialize)]
 pub struct BackendConfig {
     pub server_addr: String,
-    pub pg: deadpool_diesel::postgres::Config,
+    pub database_url: String,
 }
