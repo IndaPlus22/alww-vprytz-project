@@ -7,8 +7,10 @@ mod models;
 use ::config::Config;
 use actix_web::{middleware, web, App, HttpServer};
 use dotenv::dotenv;
-use handlers::add_user;
 use tokio_postgres::NoTls;
+
+use handlers::add_measurement;
+use handlers::add_user;
 
 use crate::config::ExampleConfig;
 
@@ -30,6 +32,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::DefaultHeaders::new().add(("Server", "osqspeed-api powered by Rust")))
             .app_data(web::Data::new(pool.clone()))
             .service(web::resource("/users").route(web::post().to(add_user)))
+            .service(web::resource("/api/v1/measurements").route(web::post().to(add_measurement)))
     })
     .bind(config.server_addr.clone())?
     .run();
