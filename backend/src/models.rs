@@ -9,8 +9,6 @@ pub struct User {
     pub id: String,
     pub name: String,
     pub email: String,
-    pub created_at: Timestamp,
-    pub updated_at: Timestamp,
 }
 
 /// New user details.
