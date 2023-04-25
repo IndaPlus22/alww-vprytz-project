@@ -104,6 +104,7 @@ Returns all measurements.
     "lon": 18.123,
     "speed": 123.45,
     "latency": 123.45,
+    "user_id": 1,
     "created_at": "2023-01-01T13:37:00.000Z",
     "updated_at": "2023-02-01T04:20:00.000Z"
   },
@@ -113,6 +114,7 @@ Returns all measurements.
     "lon": 18.123,
     "speed": 123.45,
     "latency": 123.45,
+    "user_id": 1,
     "created_at": "2023-01-01T13:37:00.000Z",
     "updated_at": "2023-02-01T04:20:00.000Z"
   }
@@ -132,6 +134,7 @@ Returns a specific measurement.
   "lon": 18.123,
   "speed": 123.45,
   "latency": 123.45,
+  "user_id": 1,
   "created_at": "2023-01-01T13:37:00.000Z",
   "updated_at": "2023-02-01T04:20:00.000Z"
 }
