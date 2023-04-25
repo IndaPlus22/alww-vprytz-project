@@ -11,6 +11,7 @@ use tokio_postgres::NoTls;
 
 use handlers::add_measurement;
 use handlers::add_user;
+use handlers::get_signin_url;
 
 use crate::config::ExampleConfig;
 
@@ -31,6 +32,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(middleware::DefaultHeaders::new().add(("Server", "osqspeed-api powered by Rust")))
             .app_data(web::Data::new(pool.clone()))
+            .service(web::resource("/api/v1/auth").route(web::get().to(get_signin_url)))
             .service(web::resource("/users").route(web::post().to(add_user)))
             .service(web::resource("/api/v1/measurements").route(web::post().to(add_measurement)))
     })

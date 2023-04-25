@@ -1,5 +1,6 @@
-use actix_web::{web, Error, HttpResponse};
+use actix_web::{web, Error, HttpResponse, Responder, Result};
 use deadpool_postgres::{Client, Pool};
+use serde::Serialize;
 
 use crate::{db, errors::MyError, models::Measurement, models::User};
 
@@ -27,4 +28,17 @@ pub async fn add_measurement(
     let new_measurement = db::add_measurement(&client, measurement_info).await?;
 
     Ok(HttpResponse::Ok().json(new_measurement))
+}
+
+pub async fn get_signin_url() -> Result<impl Responder> {
+    #[derive(Serialize)]
+    struct Response {
+        url: String,
+    }
+
+    let response = Response {
+        url: "https://osqspeed.com".to_string(),
+    };
+
+    Ok(web::Json(response))
 }
