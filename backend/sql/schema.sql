@@ -2,12 +2,12 @@ DROP SCHEMA IF EXISTS osqspeed CASCADE;
 CREATE SCHEMA osqspeed;
 
 CREATE TABLE osqspeed.users (
-	id  BIGSERIAL PRIMARY KEY,
-	email       VARCHAR(200) NOT NULL,
-	fullname    VARCHAR(200) NOT NULL,
+    id  BIGSERIAL PRIMARY KEY,
+    email       VARCHAR(200) NOT NULL,
+    fullname    VARCHAR(200) NOT NULL,
     created     timestamp default current_timestamp,
     updated     timestamp default current_timestamp,
-	UNIQUE (email)
+    UNIQUE (email)
 );
 
 CREATE TABLE osqspeed.measurements (
