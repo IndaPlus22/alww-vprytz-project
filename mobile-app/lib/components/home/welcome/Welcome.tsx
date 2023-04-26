@@ -2,22 +2,29 @@ import { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
 import { useRouter } from 'expo-router'
 
-import { styles, tab, tabText } from './Welcome.style'
-import { images, icons, COLORS, FONT, SIZES, SHADOWS } from '../../../constants'
+import { styles, tab, tabText } from './welcome.style'
+import { images, icons, COLORS, SIZES, SHADOWS } from '../../../constants'
 
 const internetSpeeds: String[] = ["Fast", "Medium", "Slow"]
 
 const Welcome = () => {
   const router = useRouter();
-  const [activeInternetSpeed, setActiveInternetSpeed] = useState("Fast")
+  const [currentInternetSpeed, setCurrentInternetSpeed] = useState("Fast")
 
-  const renderItem = ({item}) => {
-    return (
-      <TouchableOpacity style={tab(activeInternetSpeed, item)}>
-        <Text >{item}</Text>
-      </TouchableOpacity>
-    );
-  };
+  const renderItem = ({ item }: { item: string }) => {
+  return (
+    <TouchableOpacity
+      style={tab(currentInternetSpeed, item)}
+      onPress={() => {
+        setCurrentInternetSpeed(item);
+        router.push(`/search/${item}`)
+      }}>
+
+      <Text style={tabText(currentInternetSpeed, item)}>{item}</Text>
+    </TouchableOpacity>
+  );
+};
+
 
   return (
     <View>
@@ -42,15 +49,18 @@ const Welcome = () => {
             style={styles.searchBtnImage}
           />
         </TouchableOpacity>
-
-        <View style={styles.tabsContainer}>
-          <FlatList
-            data={internetSpeeds}
-            renderItem={ renderItem }
-          />
-        </View>
-
       </View>
+
+      <View style={styles.tabsContainer}>
+        <FlatList
+          data={internetSpeeds}
+          renderItem={renderItem}
+          keyExtractor={(item) => item}
+          contentContainerStyle={{ columnGap: SIZES.small }}
+          horizontal
+        />
+      </View>
+
     </View>
   )
 }

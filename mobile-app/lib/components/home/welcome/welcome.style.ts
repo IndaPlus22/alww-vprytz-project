@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, FONT, SIZES } from "../../../constants";
+import { COLORS, SIZES } from "../../../constants";
 
 export const styles = StyleSheet.create({
   container: {
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const tab = (activeJobType, item) => ({
+export const tab = (activeJobType: string, item: string) => ({
   paddingVertical: SIZES.small / 2,
   paddingHorizontal: SIZES.small,
   borderRadius: SIZES.medium,
@@ -63,7 +63,7 @@ export const tab = (activeJobType, item) => ({
   borderColor: activeJobType === item ? COLORS.secondary : COLORS.gray2,
 });
 
-export const tabText = (activeJobType, item) => ({
+export const tabText = (activeJobType: string, item: string) => ({
   color: activeJobType === item ? COLORS.secondary : COLORS.gray2,
 });
 
