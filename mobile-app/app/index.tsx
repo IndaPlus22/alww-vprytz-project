@@ -2,13 +2,14 @@ import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import { Stack, useRouter } from 'expo-router';
 
-import { images, icons, COLORS, FONT, SIZES, SHADOWS } from '../lib/constants';
+import { images, icons, COLORS, SIZES, SHADOWS } from '../lib/constants';
 import {
     ScreenHeaderBtn,
     Welcome,
     NearbyBuildings,
     PopularBuildings,
     Building,
+    NetworkTest
 } from '../lib/components';
 
 const Home = () => {
@@ -38,6 +39,7 @@ const Home = () => {
                     <Welcome />
                     <PopularBuildings />
                     <NearbyBuildings />
+                    <NetworkTest/>
                 </View>
             </ScrollView>
             

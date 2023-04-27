@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const btn = (name, activeTab) => ({
+export const btn = (name: string, activeTab: string) => ({
   paddingVertical: SIZES.medium,
   paddingHorizontal: SIZES.xLarge,
   backgroundColor: name === activeTab ? COLORS.primary : "#F3F4F8",
@@ -19,7 +19,7 @@ export const btn = (name, activeTab) => ({
   shadowColor: COLORS.white,
 });
 
-export const btnText = (name, activeTab) => ({
+export const btnText = (name: string, activeTab: string) => ({
   fontSize: SIZES.small,
   color: name === activeTab ? "#C3BFCC" : "#AAA9B8",
 });
