@@ -10,20 +10,6 @@ use crate::{
     auth::get_user_email, db, errors::MyError, models::Measurement, models::User, AppData,
 };
 
-pub async fn add_user(
-    user: web::Json<User>,
-    app_data: web::Data<AppData>,
-) -> Result<HttpResponse, Error> {
-    let user_info: User = user.into_inner();
-
-    let db_pool = &app_data.pool;
-    let client: Client = db_pool.get().await.map_err(MyError::PoolError)?;
-
-    let new_user = db::add_user(&client, user_info).await?;
-
-    Ok(HttpResponse::Ok().json(new_user))
-}
-
 pub async fn add_measurement(
     measurement: web::Json<Measurement>,
     app_data: web::Data<AppData>,
@@ -88,6 +74,7 @@ pub async fn auth_callback(
 
     #[derive(Serialize)]
     struct Response {
+        id: i64,
         email: String,
         full_name: String,
     }
@@ -127,16 +114,51 @@ pub async fn auth_callback(
         .await;
 
         if let Ok(user) = user_res {
-            let final_resp = Response {
-                email: user.email,
-                full_name: user.name,
-            };
+            // check if user exists in db
+            let db_pool = &app_data.pool;
+            let client: Client = db_pool.get().await.map_err(MyError::PoolError)?;
 
-            return Ok(web::Json(final_resp));
+            let email = user.email.clone();
+            let fullname = user.name.clone();
+
+            let user = db::get_user_by_email(&client, user.email.clone()).await;
+
+            // if user is MyError:NotFound, add user to db
+            if let Err(user) = user {
+                // check if not found
+                if let MyError::NotFound = user {
+                    // add user to db
+                    let new_user = User {
+                        id: None,
+                        email: email,
+                        fullname: fullname,
+                    };
+
+                    let new_user = db::add_user(&client, new_user).await?;
+
+                    let final_resp = Response {
+                        id: new_user.id.unwrap(),
+                        email: new_user.email,
+                        full_name: new_user.fullname,
+                    };
+
+                    return Ok(web::Json(final_resp));
+                };
+            } else if let Ok(user) = user {
+                let final_resp = Response {
+                    id: user.id.unwrap(),
+                    email: user.email,
+                    full_name: user.fullname,
+                };
+
+                return Ok(web::Json(final_resp));
+            } else {
+            }
         } else {
             return Err(MyError::BadRequest.into());
         }
     } else {
         return Err(MyError::BadRequest.into());
     }
+    return Err(MyError::BadRequest.into());
 }

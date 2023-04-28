@@ -4,6 +4,8 @@ services:
   postgres:
     container_name: postgres_container
     image: postgres
+    # debug only
+    command: ["postgres", "-c", "log_statement=all"]
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-osqspeed}
       POSTGRES_USER: ${POSTGRES_USER:-osqspeed}

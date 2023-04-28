@@ -11,7 +11,6 @@ use dotenv::dotenv;
 use tokio_postgres::NoTls;
 
 use handlers::add_measurement;
-use handlers::add_user;
 use handlers::auth_callback;
 use handlers::get_signin_url;
 
@@ -45,7 +44,6 @@ async fn main() -> std::io::Result<()> {
             }))
             .service(web::resource("/api/v1/auth").route(web::get().to(get_signin_url)))
             .service(web::resource("/api/v1/auth/callback").route(web::get().to(auth_callback)))
-            .service(web::resource("/users").route(web::post().to(add_user)))
             .service(web::resource("/api/v1/measurements").route(web::post().to(add_measurement)))
     })
     .bind(server_addr.clone())?

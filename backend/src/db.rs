@@ -18,6 +18,21 @@ pub async fn add_user(client: &Client, user_info: User) -> Result<User, MyError>
         .ok_or(MyError::NotFound) // more applicable for SELECTs
 }
 
+pub async fn get_user_by_email(client: &Client, email: String) -> Result<User, MyError> {
+    let _stmt = include_str!("../sql/get_user_by_email.sql");
+    let _stmt = _stmt.replace("$table_fields", &User::sql_table_fields());
+    let stmt = client.prepare(&_stmt).await.unwrap();
+
+    client
+        .query(&stmt, &[&email])
+        .await?
+        .iter()
+        .map(|row| User::from_row_ref(row).unwrap())
+        .collect::<Vec<User>>()
+        .pop()
+        .ok_or(MyError::NotFound) // more applicable for SELECTs
+}
+
 pub async fn add_measurement(
     client: &Client,
     measurment_info: Measurement,
