@@ -24,6 +24,18 @@ pub async fn add_measurement(
     Ok(HttpResponse::Ok().json(new_measurement))
 }
 
+pub async fn get_measurement(
+    path: web::Path<i64>,
+    app_data: web::Data<AppData>,
+) -> Result<impl Responder> {
+    let db_pool = &app_data.pool;
+    let client: Client = db_pool.get().await.map_err(MyError::PoolError)?;
+
+    let measurement = db::get_measurement_by_id(&client, path.into_inner()).await?;
+
+    Ok(HttpResponse::Ok().json(measurement))
+}
+
 pub async fn get_signin_url(app_data: web::Data<AppData>) -> Result<impl Responder> {
     let oauth_client_id = ClientId::new(app_data.config.oauth_client_id.clone());
     let oauth_client_secret = ClientSecret::new(app_data.config.oauth_client_secret.clone());
@@ -130,28 +142,18 @@ pub async fn auth_callback(
                     // add user to db
                     let new_user = User {
                         id: None,
+                        created: None,
+                        updated: None,
                         email: email,
                         fullname: fullname,
                     };
 
                     let new_user = db::add_user(&client, new_user).await?;
 
-                    let final_resp = Response {
-                        id: new_user.id.unwrap(),
-                        email: new_user.email,
-                        full_name: new_user.fullname,
-                    };
-
-                    return Ok(web::Json(final_resp));
+                    return Ok(web::Json(new_user));
                 };
             } else if let Ok(user) = user {
-                let final_resp = Response {
-                    id: user.id.unwrap(),
-                    email: user.email,
-                    full_name: user.fullname,
-                };
-
-                return Ok(web::Json(final_resp));
+                return Ok(web::Json(user));
             } else {
             }
         } else {

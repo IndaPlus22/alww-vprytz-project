@@ -59,3 +59,18 @@ pub async fn add_measurement(
         .pop()
         .ok_or(MyError::NotFound) // more applicable for SELECTs
 }
+
+pub async fn get_measurement_by_id(client: &Client, id: i64) -> Result<Measurement, MyError> {
+    let _stmt = include_str!("../sql/get_measurement_by_id.sql");
+    let _stmt = _stmt.replace("$table_fields", &Measurement::sql_table_fields());
+    let stmt = client.prepare(&_stmt).await.unwrap();
+
+    client
+        .query(&stmt, &[&id])
+        .await?
+        .iter()
+        .map(|row| Measurement::from_row_ref(row).unwrap())
+        .collect::<Vec<Measurement>>()
+        .pop()
+        .ok_or(MyError::NotFound) // more applicable for SELECTs
+}

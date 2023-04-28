@@ -12,6 +12,7 @@ use tokio_postgres::NoTls;
 
 use handlers::add_measurement;
 use handlers::auth_callback;
+use handlers::get_measurement;
 use handlers::get_signin_url;
 
 use crate::config::AppConfig;
@@ -45,6 +46,9 @@ async fn main() -> std::io::Result<()> {
             .service(web::resource("/api/v1/auth").route(web::get().to(get_signin_url)))
             .service(web::resource("/api/v1/auth/callback").route(web::get().to(auth_callback)))
             .service(web::resource("/api/v1/measurements").route(web::post().to(add_measurement)))
+            .service(
+                web::resource("/api/v1/measurements/{id}").route(web::get().to(get_measurement)),
+            )
     })
     .bind(server_addr.clone())?
     .run();
