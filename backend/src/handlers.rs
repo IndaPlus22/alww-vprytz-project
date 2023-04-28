@@ -36,6 +36,15 @@ pub async fn get_measurement(
     Ok(HttpResponse::Ok().json(measurement))
 }
 
+pub async fn get_all_measurements(app_data: web::Data<AppData>) -> Result<impl Responder> {
+    let db_pool = &app_data.pool;
+    let client: Client = db_pool.get().await.map_err(MyError::PoolError)?;
+
+    let measurements = db::get_all_measurements(&client).await?;
+
+    Ok(HttpResponse::Ok().json(measurements))
+}
+
 pub async fn get_signin_url(app_data: web::Data<AppData>) -> Result<impl Responder> {
     let oauth_client_id = ClientId::new(app_data.config.oauth_client_id.clone());
     let oauth_client_secret = ClientSecret::new(app_data.config.oauth_client_secret.clone());

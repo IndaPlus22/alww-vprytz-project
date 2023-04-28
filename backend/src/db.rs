@@ -60,6 +60,19 @@ pub async fn add_measurement(
         .ok_or(MyError::NotFound) // more applicable for SELECTs
 }
 
+pub async fn get_all_measurements(client: &Client) -> Result<Vec<Measurement>, MyError> {
+    let _stmt = include_str!("../sql/get_measurements.sql");
+    let _stmt = _stmt.replace("$table_fields", &Measurement::sql_table_fields());
+    let stmt = client.prepare(&_stmt).await.unwrap();
+
+    Ok(client
+        .query(&stmt, &[])
+        .await?
+        .iter()
+        .map(|row| Measurement::from_row_ref(row).unwrap())
+        .collect::<Vec<Measurement>>())
+}
+
 pub async fn get_measurement_by_id(client: &Client, id: i64) -> Result<Measurement, MyError> {
     let _stmt = include_str!("../sql/get_measurement_by_id.sql");
     let _stmt = _stmt.replace("$table_fields", &Measurement::sql_table_fields());
