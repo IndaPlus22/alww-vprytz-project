@@ -7,6 +7,7 @@ use tokio_postgres::error::Error as PGError;
 #[derive(Display, From, Debug)]
 pub enum MyError {
     NotFound,
+    BadRequest,
     PGError(PGError),
     PGMError(PGMError),
     PoolError(PoolError),
