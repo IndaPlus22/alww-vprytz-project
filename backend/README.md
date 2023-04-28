@@ -8,6 +8,13 @@ PG.USER=osqspeed
 PG.PASSWORD=changeme
 PG.HOST=127.0.0.1
 PG.PORT=5432
-PG.DBNAME=osqpseed
+PG.DBNAME=osqspeed
 PG.POOL.MAX_SIZE=16
+
+APP_URL="https://myapp.example.com"
+
+OAUTH_BASE_URL="https://HOSTNAME/login/oauth/authorize"
+OAUTH_TOKEN_URL="https://HOSTNAME/login/oauth/access_token"
+OAUTH_CLIENT_ID="CLIENT_ID"
+OAUTH_CLIENT_SECRET="CLIENT_SECRET"
 ```

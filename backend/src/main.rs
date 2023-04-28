@@ -13,7 +13,12 @@ use handlers::add_measurement;
 use handlers::add_user;
 use handlers::get_signin_url;
 
-use crate::config::ExampleConfig;
+use crate::config::AppConfig;
+
+pub struct AppData {
+    pool: deadpool_postgres::Pool,
+    config: AppConfig,
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -24,21 +29,25 @@ async fn main() -> std::io::Result<()> {
         .build()
         .unwrap();
 
-    let config: ExampleConfig = config_.try_deserialize().unwrap();
+    let config: AppConfig = config_.try_deserialize().unwrap();
+    let server_addr = config.server_addr.clone();
 
     let pool = config.pg.create_pool(None, NoTls).unwrap();
 
     let server = HttpServer::new(move || {
         App::new()
             .wrap(middleware::DefaultHeaders::new().add(("Server", "osqspeed-api powered by Rust")))
-            .app_data(web::Data::new(pool.clone()))
+            .app_data(web::Data::new(AppData {
+                pool: pool.clone(),
+                config: config.clone(),
+            }))
             .service(web::resource("/api/v1/auth").route(web::get().to(get_signin_url)))
             .service(web::resource("/users").route(web::post().to(add_user)))
             .service(web::resource("/api/v1/measurements").route(web::post().to(add_measurement)))
     })
-    .bind(config.server_addr.clone())?
+    .bind(server_addr.clone())?
     .run();
-    println!("Server running at http://{}/", config.server_addr);
+    println!("Server running at http://{}/", server_addr.clone());
 
     server.await
 }
