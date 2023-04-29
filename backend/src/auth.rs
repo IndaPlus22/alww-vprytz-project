@@ -21,11 +21,13 @@ pub async fn get_user_email(
         .append_pair("access_token", access_token);
 
     let response = client.get(url).bearer_auth(access_token).send().await?;
+    let response_status = response.status().is_success();
+    let response_json = response.json::<OAuthResult>().await?;
 
-    if response.status().is_success() {
-        let user_info = response.json::<OAuthResult>().await?;
+    println!("response: {:?}", response_json);
 
-        return Ok(user_info);
+    if response_status {
+        return Ok(response_json);
     } else {
         let message = "An error occurred while trying to retrieve user information.";
         return Err(From::from(message));

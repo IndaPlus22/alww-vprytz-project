@@ -127,6 +127,9 @@ pub async fn auth_callback(
         .request_async(async_http_client)
         .await;
 
+    // print token
+    println!("login: {:?}", token_res);
+
     if let Ok(token) = token_res {
         let user_res = get_user_email(
             app_data.config.oauth_base_api_url.clone(),
