@@ -39,7 +39,7 @@ async fn main() -> std::io::Result<()> {
 
     let server = HttpServer::new(move || {
         App::new()
-            .wrap(middleware::DefaultHeaders::new().add(("Server", "osqspeed-api powered by Rust")))
+            .wrap(middleware::DefaultHeaders::new().add(("x-powered-by", "Rust and actix-web <3")))
             .app_data(web::Data::new(AppData {
                 pool: pool.clone(),
                 config: config.clone(),
