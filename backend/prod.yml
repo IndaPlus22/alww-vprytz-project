@@ -11,8 +11,6 @@ services:
       PGDATA: /data/postgres
     volumes:
       - osqspeed-postgres:/data/postgres
-    networks:
-      - postgres
     restart: unless-stopped
 
   app:
