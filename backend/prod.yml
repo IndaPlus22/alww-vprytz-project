@@ -23,7 +23,7 @@ services:
       SERVER_ADDR: "0.0.0.0:5000"
       TZ: "${TZ}"
 
-      PG_HOST: "postgres"
+      PG.HOST: "postgres"
       PG.USER: ${POSTGRES_USER:-osqspeed}
       PG.PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       PG.PORT: 5432
