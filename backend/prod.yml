@@ -38,7 +38,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "127.0.0.1:${PORT}:${PORT}"
+      - "127.0.0.1:${PORT}:5000"
     expose:
       - "${PORT}"
     container_name: osqspeed_api_app
