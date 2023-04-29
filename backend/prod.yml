@@ -24,8 +24,8 @@ services:
       TZ: "${TZ}"
 
       PG_HOST: "postgres"
-      PG.USER: "${POSTGRES_USER:-osqspeed}"
-      PG.PASSWORD: "${POSTGRES_PASSWORD:-changeme}"
+      PG.USER: ${POSTGRES_USER:-osqspeed}
+      PG.PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       PG.PORT: 5432
       PG.DBNAME: ${POSTGRES_DB:-osqspeed}
       PG.POOL.MAX_SIZE: 16
