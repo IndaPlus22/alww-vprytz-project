@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 
-import { styles } from './popularBuildingcard.style'
+import { styles } from './popularBuildingCard.style'
 
 const PopularBuildingCard = () => {
   return (

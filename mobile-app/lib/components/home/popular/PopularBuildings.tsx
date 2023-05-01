@@ -5,11 +5,11 @@ import { useRouter } from 'expo-router'
 import styles from './popularBuildings.style'
 import { COLORS, SIZES } from '../../../constants'
 import PopularBuildingCard from '../../common/cards/popular/PopularBuildingCard'
+import { useFetchSpeeds } from '../../../../API/fetch'
 
 const PopularBuildings = () => {
   const router = useRouter();
-  const isLoading = false;
-  const error = false;
+  const { data, error, loading } = useFetchSpeeds(""); //WIP change to variable, not hard coded
 
   return (
     <View style={styles.container}>
@@ -21,13 +21,13 @@ const PopularBuildings = () => {
       </View>
 
       <View style={ styles.cardsContainer}>
-        {isLoading ? (
+        {loading ? (
           <ActivityIndicator size="large" color={COLORS.primary} />
         ) : error ? (
           <Text>Error</Text>
         ) : (
               <FlatList
-                data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                data={data}
                 renderItem={({ item }) => <PopularBuildingCard item={item} />}
                 keyExtractor={(item) => item?.id}
                 contentContainerStyle={{ columnGap: SIZES.medium }}

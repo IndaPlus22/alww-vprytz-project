@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, FONT, SHADOWS, SIZES } from "../../../../constants";
+import { COLORS, SHADOWS, SIZES } from "../../../../constants";
 
 export const styles = StyleSheet.create({
-  logoImage: {
+  image: {
     width: "70%",
     height: "70%",
   },
-  companyName: {
+  buildingName: {
     fontSize: SIZES.medium,
     color: "#B3AEC6",
     marginTop: SIZES.small / 1.5,
@@ -27,32 +27,28 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const container = (selectedJob, item) => ({
+export const container = (selectedBuilding: string, item_name: string) => ({
   width: 250,
   padding: SIZES.xLarge,
-  backgroundColor: selectedJob === item.job_id ? COLORS.primary : "#FFF",
+  backgroundColor: selectedBuilding === item_name ? COLORS.primary : "#FFF",
   borderRadius: SIZES.medium,
   justifyContent: "space-between",
   ...SHADOWS.medium,
   shadowColor: COLORS.white,
 });
 
-export const logoContainer = (selectedJob, item) => ({
+export const logoContainer = (selectedBuilding: string, item_name: string) => ({
   width: 50,
   height: 50,
-  backgroundColor: selectedJob === item.job_id ? "#FFF" : COLORS.white,
+  backgroundColor: selectedBuilding === item_name ? "#FFF" : COLORS.white,
   borderRadius: SIZES.medium,
   justifyContent: "center",
   alignItems: "center",
 });
 
-export const jobName = (selectedJob, item) => ({
+export const jobName = (selectedBuilding: string, item_name: string) => ({
   fontSize: SIZES.large,
-  color: selectedJob === item.job_id ? COLORS.white : COLORS.primary,
+  color: selectedBuilding === item_name ? COLORS.white : COLORS.primary,
 });
 
-export const publisher = (selectedJob) => ({
-  fontSize: SIZES.medium - 2,
-  color: selectedJob === item.job_id ? COLORS.white : COLORS.primary,
-});
 
