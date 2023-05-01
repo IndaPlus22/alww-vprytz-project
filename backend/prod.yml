@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: osqspeed_postgres
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-osqspeed}
+      POSTGRES_USER: ${POSTGRES_USER:-osqspeed}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    volumes:
+      - osqspeed-postgres:/data/postgres
+    restart: unless-stopped
+
+  app:
+    image: "ghcr.io/indaplus22/alww-vprytz-project/osqspeed-api:main"
+    restart: always
+    environment:
+      APP_URL: "${APP_URL}"
+      SERVER_ADDR: "0.0.0.0:5000"
+      TZ: "${TZ}"
+
+      PG.HOST: "postgres"
+      PG.USER: ${POSTGRES_USER:-osqspeed}
+      PG.PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PG.PORT: 5432
+      PG.DBNAME: ${POSTGRES_DB:-osqspeed}
+      PG.POOL.MAX_SIZE: 16
+
+      OAUTH_AUTH_URL: "${OAUTH_AUTH_URL}"
+      OAUTH_TOKEN_URL: "${OAUTH_TOKEN_URL}"
+      OAUTH_BASE_API_URL: "${OAUTH_BASE_API_URL}"
+      OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
+      OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
+    depends_on:
+      - postgres
+    ports:
+      - "127.0.0.1:${PORT}:5000"
+    expose:
+      - "${PORT}"
+    container_name: osqspeed_api_app
+
+volumes:
+  osqspeed-postgres:
