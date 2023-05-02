@@ -39,7 +39,7 @@ const Home = () => {
                     <Welcome />
                     <PopularBuildings />
                     <NearbyBuildings />
-                    <NetworkTest/>
+                    {/* <NetworkTest/> */}
                 </View>
             </ScrollView>
             

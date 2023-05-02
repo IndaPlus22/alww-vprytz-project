@@ -5,11 +5,18 @@ import { useRouter } from 'expo-router'
 import styles from './popularBuildings.style'
 import { COLORS, SIZES } from '../../../constants'
 import PopularBuildingCard from '../../common/cards/popular/PopularBuildingCard'
-import { useFetchSpeeds } from '../../../../API/fetch'
+import { iBuilding, useFetchSpeeds } from '../../../../API/fetch'
 
 const PopularBuildings = () => {
   const router = useRouter();
-  const { data, error, loading } = useFetchSpeeds(""); //WIP change to variable, not hard coded
+  const [selectedBuilding, setSelectedBuilding] = useState("");
+  
+  const { buildings, error, loading } = useFetchSpeeds(""); //WIP change to variable, not hard coded
+
+  const handleCardPress = (item: iBuilding) => {
+    router.push(`/building-details/${item.id}`);
+    setSelectedBuilding(item.id);
+  };
 
   return (
     <View style={styles.container}>
@@ -27,8 +34,12 @@ const PopularBuildings = () => {
           <Text>Error</Text>
         ) : (
               <FlatList
-                data={data}
-                renderItem={({ item }) => <PopularBuildingCard item={item} />}
+                data={buildings}
+                renderItem={({ item }) => <PopularBuildingCard
+                  building={item}
+                  selectedBuilding={selectedBuilding}
+                  handleCardPress={handleCardPress}
+                />}
                 keyExtractor={(item) => item?.id}
                 contentContainerStyle={{ columnGap: SIZES.medium }}
                 horizontal

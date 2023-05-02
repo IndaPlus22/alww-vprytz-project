@@ -10,6 +10,7 @@ const SpeedTestComponent = () => {
       <Text>Current download speed: {res.downloadSpeed} MB/s</Text>
       <Text>Current latency speed: {res.latency} ms</Text>
       <Text>Current lat/lon speed: {res.location?.coords.latitude} {res.location?.coords.longitude}</Text>
+      <Text>Current altitude: {res.location?.coords.altitude}</Text>
     </View>
   );
 };
