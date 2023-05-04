@@ -63,7 +63,7 @@ pub async fn add_measurement(
 
 pub async fn add_session(client: &Client, session_info: Session) -> Result<Session, MyError> {
     let _stmt = include_str!("../sql/add_session.sql");
-    let _stmt = _stmt.replace("$table_fields", &Measurement::sql_table_fields());
+    let _stmt = _stmt.replace("$table_fields", &Session::sql_table_fields());
     let stmt = client.prepare(&_stmt).await.unwrap();
 
     client
