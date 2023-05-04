@@ -9,7 +9,7 @@ This document describes the specification for a project in [DD1349](https://www.
 ## Tech stack
 
 - Mobile app: React Native with TypeScript
-- Frontend/web app: React with TypeScript
+- ~~Frontend/web app: React with TypeScript~~
 - Backend: Rust with Actix web framework
 - Database: PostgreSQL
 - Speedtest server: nginx, preferably server in Stockholm with 1 Gbps or better connection
