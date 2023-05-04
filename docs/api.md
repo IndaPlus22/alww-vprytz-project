@@ -28,12 +28,20 @@ Returns information about current user, if authentication was successful. Otherw
 
 ```json
 {
-  "id": 1,
-  "name": "Jaap Haartsen",
-  "email": "jaap.haartsen@example.com",
-  "session_token": "NNCZCVMtJHUvZyf5KGch09YAxznnqk",
-  "created_at": "2023-01-01T13:37:00.000Z",
-  "updated_at": "2023-02-01T04:20:00.000Z"
+  "user": {
+    "id": 1,
+    "name": "Jaap Haartsen",
+    "email": "jaap.haartsen@example.com",
+    "created": "2023-01-01T13:37:00.000Z",
+    "updated": "2023-02-01T04:20:00.000Z"
+  },
+  "session": {
+    "id": 1,
+    "user_id": 1,
+    "token": "NNCZCVMtJHUvZyf5KGch09YAxznnqk",
+    "created": "2023-01-01T13:37:00.000Z",
+    "expires": "2023-01-01T13:37:00.000Z"
+  }
 }
 ```
 
@@ -61,8 +69,8 @@ Required headers:
   "id": 1,
   "name": "Jaap Haartsen",
   "email": "jaap.haartsen@example.com",
-  "created_at": "2023-01-01T13:37:00.000Z",
-  "updated_at": "2023-02-01T04:20:00.000Z"
+  "created": "2023-01-01T13:37:00.000Z",
+  "updated": "2023-02-01T04:20:00.000Z"
 }
 ```
 
@@ -94,8 +102,8 @@ Required headers:
   "lon": 18.123,
   "speed": 123.45,
   "latency": 123.45,
-  "created_at": "2023-01-01T13:37:00.000Z",
-  "updated_at": "2023-02-01T04:20:00.000Z"
+  "created": "2023-01-01T13:37:00.000Z",
+  "updated": "2023-02-01T04:20:00.000Z"
 }
 ```
 
@@ -118,8 +126,8 @@ Required headers:
     "speed": 123.45,
     "latency": 123.45,
     "user_id": 1,
-    "created_at": "2023-01-01T13:37:00.000Z",
-    "updated_at": "2023-02-01T04:20:00.000Z"
+    "created": "2023-01-01T13:37:00.000Z",
+    "updated": "2023-02-01T04:20:00.000Z"
   },
   {
     "id": 2,
@@ -128,8 +136,8 @@ Required headers:
     "speed": 123.45,
     "latency": 123.45,
     "user_id": 1,
-    "created_at": "2023-01-01T13:37:00.000Z",
-    "updated_at": "2023-02-01T04:20:00.000Z"
+    "created": "2023-01-01T13:37:00.000Z",
+    "updated": "2023-02-01T04:20:00.000Z"
   }
 ]
 ```
@@ -152,7 +160,7 @@ Required headers:
   "speed": 123.45,
   "latency": 123.45,
   "user_id": 1,
-  "created_at": "2023-01-01T13:37:00.000Z",
-  "updated_at": "2023-02-01T04:20:00.000Z"
+  "created": "2023-01-01T13:37:00.000Z",
+  "updated": "2023-02-01T04:20:00.000Z"
 }
 ```

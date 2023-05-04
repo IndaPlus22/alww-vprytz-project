@@ -17,6 +17,7 @@ CREATE TABLE osqspeed.measurements (
     latency     FLOAT NOT NULL,
     lat         FLOAT NOT NULL,
     lon         FLOAT NOT NULL,
+    altitude    FLOAT NOT NULL,
     created     timestamp default current_timestamp,
     updated     timestamp default current_timestamp,
     FOREIGN KEY (user_id) REFERENCES osqspeed.users(id)

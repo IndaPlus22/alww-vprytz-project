@@ -1,7 +1,7 @@
 use deadpool_postgres::Client;
 use tokio_pg_mapper::FromTokioPostgresRow;
 
-use crate::{errors::MyError, models::Measurement, models::User};
+use crate::{errors::MyError, models::Measurement, models::Session, models::User};
 
 pub async fn add_user(client: &Client, user_info: User) -> Result<User, MyError> {
     let _stmt = include_str!("../sql/add_user.sql");
@@ -48,6 +48,7 @@ pub async fn add_measurement(
                 &measurment_info.user_id,
                 &measurment_info.lat,
                 &measurment_info.lon,
+                &measurment_info.altitude,
                 &measurment_info.speed,
                 &measurment_info.latency,
             ],
@@ -56,6 +57,21 @@ pub async fn add_measurement(
         .iter()
         .map(|row| Measurement::from_row_ref(row).unwrap())
         .collect::<Vec<Measurement>>()
+        .pop()
+        .ok_or(MyError::NotFound) // more applicable for SELECTs
+}
+
+pub async fn add_session(client: &Client, session_info: Session) -> Result<Session, MyError> {
+    let _stmt = include_str!("../sql/add_session.sql");
+    let _stmt = _stmt.replace("$table_fields", &Measurement::sql_table_fields());
+    let stmt = client.prepare(&_stmt).await.unwrap();
+
+    client
+        .query(&stmt, &[&session_info.user_id, &session_info.token])
+        .await?
+        .iter()
+        .map(|row| Session::from_row_ref(row).unwrap())
+        .collect::<Vec<Session>>()
         .pop()
         .ok_or(MyError::NotFound) // more applicable for SELECTs
 }
@@ -84,6 +100,21 @@ pub async fn get_measurement_by_id(client: &Client, id: i64) -> Result<Measureme
         .iter()
         .map(|row| Measurement::from_row_ref(row).unwrap())
         .collect::<Vec<Measurement>>()
+        .pop()
+        .ok_or(MyError::NotFound) // more applicable for SELECTs
+}
+
+pub async fn get_session_by_token(client: &Client, token: String) -> Result<Session, MyError> {
+    let _stmt = include_str!("../sql/get_session_by_token.sql");
+    let _stmt = _stmt.replace("$table_fields", &Session::sql_table_fields());
+    let stmt = client.prepare(&_stmt).await.unwrap();
+
+    client
+        .query(&stmt, &[&token])
+        .await?
+        .iter()
+        .map(|row| Session::from_row_ref(row).unwrap())
+        .collect::<Vec<Session>>()
         .pop()
         .ok_or(MyError::NotFound) // more applicable for SELECTs
 }

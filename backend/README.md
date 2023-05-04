@@ -11,7 +11,7 @@ PG.PORT=5432
 PG.DBNAME=osqspeed
 PG.POOL.MAX_SIZE=16
 
-APP_URL="https://myapp.example.com"
+APP_URL="http://localhost:5000"
 
 OAUTH_AUTH_URL="https://HOSTNAME/login/oauth/authorize"
 OAUTH_TOKEN_URL="https://HOSTNAME/login/oauth/access_token"

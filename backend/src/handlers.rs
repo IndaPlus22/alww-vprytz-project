@@ -4,10 +4,17 @@ use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AuthUrl, AuthorizationCode, ClientId,
     ClientSecret, CsrfToken, RedirectUrl, Scope, TokenResponse, TokenUrl,
 };
+use rand::distributions::Alphanumeric;
+use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    auth::get_user_email, db, errors::MyError, models::Measurement, models::User, AppData,
+    auth::get_user_email,
+    db,
+    errors::MyError,
+    models::Measurement,
+    models::{Session, User},
+    AppData,
 };
 
 pub async fn add_measurement(
@@ -95,9 +102,8 @@ pub async fn auth_callback(
 
     #[derive(Serialize)]
     struct Response {
-        id: i64,
-        email: String,
-        full_name: String,
+        user: User,
+        session: Session,
     }
 
     let params = web::Query::<Params>::from_query(req.query_string()).unwrap();
@@ -162,14 +168,52 @@ pub async fn auth_callback(
 
                     let new_user = db::add_user(&client, new_user).await?;
 
-                    // TODO: create token and return in response
+                    // create session
+                    let new_session = Session {
+                        id: None,
+                        user_id: new_user.id.unwrap(),
+                        created: None,
+                        expires: None,
+                        // generate random 30 char string as token
+                        token: thread_rng() // copied from https://rust-lang-nursery.github.io/rust-cookbook/algorithms/randomness.html#create-random-passwords-from-a-set-of-alphanumeric-characters
+                            .sample_iter(&Alphanumeric)
+                            .take(30)
+                            .map(char::from)
+                            .collect(),
+                    };
 
-                    return Ok(web::Json(new_user));
+                    // add session to db
+                    let new_session = db::add_session(&client, new_session).await?;
+
+                    // return user info + session token
+                    return Ok(web::Json(Response {
+                        user: new_user,
+                        session: new_session,
+                    }));
                 };
             } else if let Ok(user) = user {
-                // TODO: create token and return in response
+                // create session
+                let new_session = Session {
+                    id: None,
+                    user_id: user.id.unwrap(),
+                    created: None,
+                    expires: None,
+                    // generate random 30 char string as token
+                    token: thread_rng() // copied from https://rust-lang-nursery.github.io/rust-cookbook/algorithms/randomness.html#create-random-passwords-from-a-set-of-alphanumeric-characters
+                        .sample_iter(&Alphanumeric)
+                        .take(30)
+                        .map(char::from)
+                        .collect(),
+                };
 
-                return Ok(web::Json(user));
+                // add session to db
+                let new_session = db::add_session(&client, new_session).await?;
+
+                // return user info + session token
+                return Ok(web::Json(Response {
+                    user: user,
+                    session: new_session,
+                }));
             } else {
             }
         } else {
