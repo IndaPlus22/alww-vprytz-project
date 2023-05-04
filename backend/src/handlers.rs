@@ -162,9 +162,13 @@ pub async fn auth_callback(
 
                     let new_user = db::add_user(&client, new_user).await?;
 
+                    // TODO: create token and return in response
+
                     return Ok(web::Json(new_user));
                 };
             } else if let Ok(user) = user {
+                // TODO: create token and return in response
+
                 return Ok(web::Json(user));
             } else {
             }

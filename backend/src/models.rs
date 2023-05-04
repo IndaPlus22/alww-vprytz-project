@@ -12,7 +12,7 @@ pub struct User {
 }
 
 #[derive(Deserialize, PostgresMapper, Serialize)]
-#[pg_mapper(table = "measurements")] // singular 'user' is a keyword..
+#[pg_mapper(table = "measurements")]
 pub struct Measurement {
     pub id: Option<i64>,
     pub user_id: i64,
@@ -22,4 +22,13 @@ pub struct Measurement {
     pub latency: f64,
     pub created: chrono::NaiveDateTime,
     pub updated: chrono::NaiveDateTime,
+}
+
+#[derive(Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "sessions")]
+pub struct Session {
+    pub id: Option<i64>,
+    pub token: String,
+    pub created: Option<chrono::NaiveDateTime>,
+    pub expires: Option<chrono::NaiveDateTime>,
 }

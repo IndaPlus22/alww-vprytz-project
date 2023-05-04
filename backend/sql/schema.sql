@@ -21,3 +21,12 @@ CREATE TABLE osqspeed.measurements (
     updated     timestamp default current_timestamp,
     FOREIGN KEY (user_id) REFERENCES osqspeed.users(id)
 );
+
+CREATE TABLE osqspeed.sessions (
+    id  BIGSERIAL PRIMARY KEY,
+    user_id     BIGINT NOT NULL,
+    token       VARCHAR(200) NOT NULL,
+    created     timestamp default current_timestamp,
+    expires     timestamp default current_timestamp + interval '1 day',
+    FOREIGN KEY (user_id) REFERENCES osqspeed.users(id)
+);

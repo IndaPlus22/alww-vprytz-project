@@ -31,6 +31,7 @@ Returns information about current user, if authentication was successful. Otherw
   "id": 1,
   "name": "Jaap Haartsen",
   "email": "jaap.haartsen@example.com",
+  "session_token": "NNCZCVMtJHUvZyf5KGch09YAxznnqk",
   "created_at": "2023-01-01T13:37:00.000Z",
   "updated_at": "2023-02-01T04:20:00.000Z"
 }
@@ -49,6 +50,10 @@ If authentication was not successful, the response will be:
 
 Returns information about the user.
 
+Required headers:
+
+- `Authorization` - Session token
+
 #### Response
 
 ```json
@@ -64,6 +69,10 @@ Returns information about the user.
 ### POST `/api/v1/measurements`
 
 Creates a new measurement.
+
+Required headers:
+
+- `Authorization` - Session token
 
 #### Request
 
@@ -93,6 +102,10 @@ Creates a new measurement.
 ### GET `/api/v1/measurements`
 
 Returns all measurements.
+
+Required headers:
+
+- `Authorization` - Session token
 
 #### Response
 
@@ -124,6 +137,10 @@ Returns all measurements.
 ### GET `/api/v1/measurements/:id`
 
 Returns a specific measurement.
+
+Required headers:
+
+- `Authorization` - Session token
 
 #### Response
 
