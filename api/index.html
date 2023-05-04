@@ -584,12 +584,20 @@
 <p>Returns information about current user, if authentication was successful. Otherwise, returns an error.</p>
 <h4 id="response_1">Response</h4>
 <pre><code class="language-json">{
-  &quot;id&quot;: 1,
-  &quot;name&quot;: &quot;Jaap Haartsen&quot;,
-  &quot;email&quot;: &quot;jaap.haartsen@example.com&quot;,
-  &quot;session_token&quot;: &quot;NNCZCVMtJHUvZyf5KGch09YAxznnqk&quot;,
-  &quot;created_at&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
-  &quot;updated_at&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
+  &quot;user&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Jaap Haartsen&quot;,
+    &quot;email&quot;: &quot;jaap.haartsen@example.com&quot;,
+    &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
+    &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
+  },
+  &quot;session&quot;: {
+    &quot;id&quot;: 1,
+    &quot;user_id&quot;: 1,
+    &quot;token&quot;: &quot;NNCZCVMtJHUvZyf5KGch09YAxznnqk&quot;,
+    &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
+    &quot;expires&quot;: &quot;2023-01-01T13:37:00.000Z&quot;
+  }
 }
 </code></pre>
 <p>If authentication was not successful, the response will be:</p>
@@ -609,8 +617,8 @@
   &quot;id&quot;: 1,
   &quot;name&quot;: &quot;Jaap Haartsen&quot;,
   &quot;email&quot;: &quot;jaap.haartsen@example.com&quot;,
-  &quot;created_at&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
-  &quot;updated_at&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
+  &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
+  &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
 }
 </code></pre>
 <h3 id="post-apiv1measurements">POST <code>/api/v1/measurements</code></h3>
@@ -634,8 +642,8 @@
   &quot;lon&quot;: 18.123,
   &quot;speed&quot;: 123.45,
   &quot;latency&quot;: 123.45,
-  &quot;created_at&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
-  &quot;updated_at&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
+  &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
+  &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
 }
 </code></pre>
 <h3 id="get-apiv1measurements">GET <code>/api/v1/measurements</code></h3>
@@ -653,8 +661,8 @@
     &quot;speed&quot;: 123.45,
     &quot;latency&quot;: 123.45,
     &quot;user_id&quot;: 1,
-    &quot;created_at&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
-    &quot;updated_at&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
+    &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
+    &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
   },
   {
     &quot;id&quot;: 2,
@@ -663,8 +671,8 @@
     &quot;speed&quot;: 123.45,
     &quot;latency&quot;: 123.45,
     &quot;user_id&quot;: 1,
-    &quot;created_at&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
-    &quot;updated_at&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
+    &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
+    &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
   }
 ]
 </code></pre>
@@ -682,8 +690,8 @@
   &quot;speed&quot;: 123.45,
   &quot;latency&quot;: 123.45,
   &quot;user_id&quot;: 1,
-  &quot;created_at&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
-  &quot;updated_at&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
+  &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
+  &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
 }
 </code></pre>
 
