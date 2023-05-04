@@ -6,8 +6,10 @@ mod handlers;
 mod models;
 
 use ::config::Config;
+use actix_web::middleware::Logger;
 use actix_web::{middleware, web, App, HttpServer};
 use dotenv::dotenv;
+use env_logger::Env;
 use tokio_postgres::NoTls;
 
 use handlers::add_measurement;
@@ -37,8 +39,12 @@ async fn main() -> std::io::Result<()> {
 
     let pool = config.pg.create_pool(None, NoTls).unwrap();
 
+    env_logger::init_from_env(Env::default().default_filter_or("info"));
+
     let server = HttpServer::new(move || {
         App::new()
+            .wrap(Logger::default())
+            .wrap(Logger::new("%a %{User-Agent}i"))
             .wrap(middleware::DefaultHeaders::new().add(("x-powered-by", "Rust and actix-web <3")))
             .app_data(web::Data::new(AppData {
                 pool: pool.clone(),
