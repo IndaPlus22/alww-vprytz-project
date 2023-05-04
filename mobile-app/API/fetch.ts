@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { EXPO_ROUTER_APP_SPEED_URL, EXPO_ROUTER_APP_API } from '@env'
+import { SPEED_URL, API } from '@env'
 
 import * as Location from 'expo-location';
+import { checkImage } from "../lib/utils";
 
 interface PostData {
   lat: number;
@@ -59,7 +60,7 @@ export const useNetworkTest = (endpoint: string) => {
     const measureDownloadSpeed = async () => {
       try {
         const startLatency = Date.now();
-        await axios.head(`${EXPO_ROUTER_APP_SPEED_URL}/${endpoint}MB.zip`, {
+        await axios.head(`${SPEED_URL}/${endpoint}MB.zip`, {
           cancelToken: source.token,
         });
         const endLatency = Date.now();
@@ -67,7 +68,7 @@ export const useNetworkTest = (endpoint: string) => {
         setLatency(latency);
 
         const startTime = Date.now();
-        const response = await axios.get(`${EXPO_ROUTER_APP_SPEED_URL}/${endpoint}MB.zip`, {
+        const response = await axios.get(`${SPEED_URL}/${endpoint}MB.zip`, {
           responseType: "blob",
           cancelToken: source.token,
         });
@@ -99,7 +100,7 @@ export const useNetworkTest = (endpoint: string) => {
 
     const sendPost = async (data: PostData) => {
       try {
-        const response = await axios.post(`${EXPO_ROUTER_APP_API}/measurements`, data);
+        const response = await axios.post(`${API}/measurements`, data);
         console.log(response.data);
       } catch (error) {
         console.error('Error sending POST request:', error);

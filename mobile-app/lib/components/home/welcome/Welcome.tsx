@@ -1,48 +1,50 @@
-import { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
-import { useRouter } from 'expo-router'
+import { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
+import { useRouter } from "expo-router";
 
-import { styles, tab, tabText } from './welcome.style'
-import { images, icons, COLORS, SIZES, SHADOWS } from '../../../constants'
+import { styles, tab, tabText } from "./welcome.style";
+import { images, icons, COLORS, SIZES, SHADOWS } from "../../../constants";
 
-const internetSpeeds: String[] = ["Fast", "Medium", "Slow"]
+const internetSpeeds: String[] = ["Fast", "Medium", "Slow"];
 
 const Welcome = () => {
   const router = useRouter();
-  const [currentInternetSpeed, setCurrentInternetSpeed] = useState("Fast")
+  const [currentInternetSpeed, setCurrentInternetSpeed] = useState("Fast");
 
   const renderItem = ({ item }: { item: string }) => {
-  return (
-    <TouchableOpacity
-      style={tab(currentInternetSpeed, item)}
-      onPress={() => {
-        setCurrentInternetSpeed(item);
-        router.push(`/search/${item}`)
-      }}>
-
-      <Text style={tabText(currentInternetSpeed, item)}>{item}</Text>
-    </TouchableOpacity>
-  );
-};
-
+    return (
+      <TouchableOpacity
+        style={tab(currentInternetSpeed, item)}
+        onPress={() => {
+          setCurrentInternetSpeed(item);
+          router.push(`/search/${item}`);
+        }}
+      >
+        <Text style={tabText(currentInternetSpeed, item)}>{item}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View>
-      <View style={styles.container}>
-        <Text style={styles.nameText}>John Doe</Text>
-        <Text style={styles.WelcomeText}>Welcome back,</Text>
-      </View>
-
-      <View style={styles.searchContainer }>
+      <View style={styles.searchContainer}>
         <View style={styles.searchWrapper}>
-          <TextInput style={styles.searchInput}
+          <TextInput
+            style={styles.searchInput}
             value=""
-            onChange={() => { }}
+            onChange={() => {}}
             placeholder="Search for Buildings"
           />
         </View>
 
-        <TouchableOpacity style={styles.searchBtn} onPress={() => { }}>
+        <TouchableOpacity style={styles.searchBtn} onPress={() => {}}>
           <Image
             source={icons.search}
             resizeMode="contain"
@@ -60,9 +62,8 @@ const Welcome = () => {
           horizontal
         />
       </View>
-
     </View>
-  )
-}
+  );
+};
 
-export default Welcome
+export default Welcome;

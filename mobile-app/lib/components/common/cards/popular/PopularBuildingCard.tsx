@@ -20,6 +20,16 @@ const PopularBuildingCard: React.FC<PopularBuildingCardProps> = ({
   selectedBuilding,
   handleCardPress,
 }) => {
+  const main = async () => {
+    try {
+      building.image = await checkImage(building.image);
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+
+  main();
+
   return (
     <TouchableOpacity
       style={container(selectedBuilding, building.name)}
@@ -27,7 +37,7 @@ const PopularBuildingCard: React.FC<PopularBuildingCardProps> = ({
     >
       <TouchableOpacity style={imgContainer(selectedBuilding, building.name)}>
         <Image
-          source={{ uri: checkImage(building.image) }}
+          source={{ uri: building.image }}
           resizeMode="contain"
           style={styles.image}
         />

@@ -1,15 +1,25 @@
-# Expo Router Example
+# App
 
-Use [`expo-router`](https://expo.github.io/router) to build native navigation using files in the `app/` directory.
+## How to use
 
-## 🚀 How to use
+### Install internal dependencies
 
 ```sh
-npx create-react-native-app -t with-router
+npm i -g expo-cli / yarn global add expo-cli
+npm i / yarn install
 ```
 
-## 📝 Notes
+### Install external dependencies
 
-- [Expo Router: Docs](https://expo.github.io/router)
-- [Expo Router: Repo](https://github.com/expo/router)
-- [Request for Comments](https://github.com/expo/router/discussions/1)
+- Android Studio
+- Xcode
+
+### Run the app
+
+```sh
+npm run / npx expo start / yarn start
+```
+
+## Screenshots
+
+![search ui version 1.0](/screenshot/search-ui-v1.png)

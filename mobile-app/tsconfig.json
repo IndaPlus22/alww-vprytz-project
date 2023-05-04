@@ -1,11 +1,15 @@
 {
-    "extends": "expo/tsconfig.base",
-    "compilerOptions": {
-        "strict": true
-    },
-    "allowJs": false,
-    "esModuleInterop": true,
-    "jsx": "react-native",
-    "target": "ESNext",
-    "skipLibCheck": true,
+  "compilerOptions": {
+    "strict": true,
+    "watch": true,
+  },
+  "extends": "expo/tsconfig.base",
+  "typeRoots": [
+    "./src/types"
+  ],
+  "allowJs": false,
+  "esModuleInterop": true,
+  "jsx": "react-native",
+  "target": "ESNext",
+  "skipLibCheck": true,
 }
