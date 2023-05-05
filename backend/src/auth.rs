@@ -1,5 +1,9 @@
+use actix_web::HttpRequest;
+use deadpool_postgres;
 use reqwest::{Client, Url};
 use serde::Deserialize;
+
+use crate::db;
 
 #[derive(Deserialize, Debug)]
 pub struct OAuthResult {
@@ -43,4 +47,40 @@ pub async fn get_user_email(
         let message = "An error occurred while trying to retrieve user information.";
         return Err(From::from(message));
     }
+}
+
+pub async fn verify_session_by_header(
+    req: HttpRequest,
+    client: &deadpool_postgres::Client,
+) -> Option<i64> {
+    let token = req.headers().get("Authorization").unwrap().to_str().ok();
+
+    if token.is_none() {
+        return None;
+    }
+
+    let token = token.unwrap();
+
+    if !token.starts_with("Bearer ") {
+        return None;
+    }
+
+    let token = token.replace("Bearer ", "");
+
+    // query in database
+    let session = db::get_session_by_token(&client, token).await;
+
+    if session.is_err() {
+        return None;
+    }
+
+    let session = session.unwrap();
+
+    // if session has expired
+    if session.expires.unwrap() < chrono::Utc::now().naive_local() {
+        return None;
+    }
+
+    // return user id
+    return Some(session.user_id);
 }

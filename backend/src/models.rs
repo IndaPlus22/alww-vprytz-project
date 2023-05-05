@@ -15,14 +15,14 @@ pub struct User {
 #[pg_mapper(table = "measurements")]
 pub struct Measurement {
     pub id: Option<i64>,
-    pub user_id: i64,
+    pub user_id: Option<i64>,
     pub lat: f64,
     pub lon: f64,
     pub altitude: f64,
     pub speed: f64,
     pub latency: f64,
-    pub created: chrono::NaiveDateTime,
-    pub updated: chrono::NaiveDateTime,
+    pub created: Option<chrono::NaiveDateTime>,
+    pub updated: Option<chrono::NaiveDateTime>,
 }
 
 #[derive(Deserialize, PostgresMapper, Serialize)]

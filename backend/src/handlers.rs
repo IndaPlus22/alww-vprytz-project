@@ -8,6 +8,7 @@ use rand::distributions::Alphanumeric;
 use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 
+use crate::auth::verify_session_by_header;
 use crate::{
     auth::get_user_email,
     db,
@@ -18,13 +19,24 @@ use crate::{
 };
 
 pub async fn add_measurement(
+    req: HttpRequest,
     measurement: web::Json<Measurement>,
     app_data: web::Data<AppData>,
 ) -> Result<HttpResponse, Error> {
-    let measurement_info: Measurement = measurement.into_inner();
-
     let db_pool = &app_data.pool;
     let client: Client = db_pool.get().await.map_err(MyError::PoolError)?;
+
+    let user_id = verify_session_by_header(req, &client).await;
+
+    if user_id.is_none() {
+        return Ok(HttpResponse::Unauthorized().finish());
+    }
+
+    let measurement_info: Measurement = measurement.into_inner();
+    let measurement_info = Measurement {
+        user_id: user_id,
+        ..measurement_info
+    };
 
     let new_measurement = db::add_measurement(&client, measurement_info).await?;
 
