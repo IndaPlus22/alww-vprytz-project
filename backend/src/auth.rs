@@ -20,7 +20,18 @@ pub async fn get_user_email(
     url.query_pairs_mut()
         .append_pair("access_token", access_token);
 
-    let response = client.get(url).bearer_auth(access_token).send().await?;
+    println!("Performing GET request to: {:?}", url);
+
+    let response = client
+        .get(url)
+        .header("Accept", "application/json")
+        .header("User-Agent", "Rust")
+        .bearer_auth(access_token)
+        .send()
+        .await?;
+
+    println!("response: {:?}", response);
+
     let response_status = response.status().is_success();
     let response_json = response.json::<OAuthResult>().await?;
 
