@@ -109,11 +109,7 @@ Required headers:
 
 ### GET `/api/v1/measurements`
 
-Returns all measurements.
-
-Required headers:
-
-- `Authorization` - Session token
+Returns all measurements. Does not require authentication.
 
 #### Response
 
@@ -144,11 +140,7 @@ Required headers:
 
 ### GET `/api/v1/measurements/:id`
 
-Returns a specific measurement.
-
-Required headers:
-
-- `Authorization` - Session token
+Returns a specific measurement. Does not require authentication.
 
 #### Response
 
