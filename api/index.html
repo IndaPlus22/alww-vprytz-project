@@ -586,7 +586,7 @@
 <pre><code class="language-json">{
   &quot;user&quot;: {
     &quot;id&quot;: 1,
-    &quot;name&quot;: &quot;Jaap Haartsen&quot;,
+    &quot;fullname&quot;: &quot;Jaap Haartsen&quot;,
     &quot;email&quot;: &quot;jaap.haartsen@example.com&quot;,
     &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
     &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
@@ -615,7 +615,7 @@
 <h4 id="response_2">Response</h4>
 <pre><code class="language-json">{
   &quot;id&quot;: 1,
-  &quot;name&quot;: &quot;Jaap Haartsen&quot;,
+  &quot;fullname&quot;: &quot;Jaap Haartsen&quot;,
   &quot;email&quot;: &quot;jaap.haartsen@example.com&quot;,
   &quot;created&quot;: &quot;2023-01-01T13:37:00.000Z&quot;,
   &quot;updated&quot;: &quot;2023-02-01T04:20:00.000Z&quot;
@@ -647,11 +647,7 @@
 }
 </code></pre>
 <h3 id="get-apiv1measurements">GET <code>/api/v1/measurements</code></h3>
-<p>Returns all measurements.</p>
-<p>Required headers:</p>
-<ul>
-<li><code>Authorization</code> - Session token</li>
-</ul>
+<p>Returns all measurements. Does not require authentication.</p>
 <h4 id="response_4">Response</h4>
 <pre><code class="language-json">[
   {
@@ -677,11 +673,7 @@
 ]
 </code></pre>
 <h3 id="get-apiv1measurementsid">GET <code>/api/v1/measurements/:id</code></h3>
-<p>Returns a specific measurement.</p>
-<p>Required headers:</p>
-<ul>
-<li><code>Authorization</code> - Session token</li>
-</ul>
+<p>Returns a specific measurement. Does not require authentication.</p>
 <h4 id="response_5">Response</h4>
 <pre><code class="language-json">{
   &quot;id&quot;: 1,
@@ -700,7 +692,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 4, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 5, 2023</span>
       
         <br>
         Created:
