@@ -236,3 +236,21 @@ pub async fn auth_callback(
     }
     return Err(MyError::BadRequest.into());
 }
+
+pub async fn get_current_user(
+    req: HttpRequest,
+    app_data: web::Data<AppData>,
+) -> Result<impl Responder> {
+    let db_pool = &app_data.pool;
+    let client: Client = db_pool.get().await.map_err(MyError::PoolError)?;
+
+    let user_id = verify_session_by_header(req, &client).await;
+
+    if user_id.is_none() {
+        return Ok(HttpResponse::Unauthorized().finish());
+    }
+
+    let user = db::get_user_by_id(&client, user_id.unwrap()).await?;
+
+    Ok(HttpResponse::Ok().json(user))
+}

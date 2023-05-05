@@ -53,13 +53,13 @@ pub async fn verify_session_by_header(
     req: HttpRequest,
     client: &deadpool_postgres::Client,
 ) -> Option<i64> {
-    let token = req.headers().get("Authorization").unwrap().to_str().ok();
+    let token = req.headers().get("Authorization");
 
     if token.is_none() {
         return None;
     }
 
-    let token = token.unwrap();
+    let token = token.unwrap().to_str().unwrap();
 
     if !token.starts_with("Bearer ") {
         return None;

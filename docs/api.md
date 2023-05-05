@@ -30,7 +30,7 @@ Returns information about current user, if authentication was successful. Otherw
 {
   "user": {
     "id": 1,
-    "name": "Jaap Haartsen",
+    "fullname": "Jaap Haartsen",
     "email": "jaap.haartsen@example.com",
     "created": "2023-01-01T13:37:00.000Z",
     "updated": "2023-02-01T04:20:00.000Z"
@@ -67,7 +67,7 @@ Required headers:
 ```json
 {
   "id": 1,
-  "name": "Jaap Haartsen",
+  "fullname": "Jaap Haartsen",
   "email": "jaap.haartsen@example.com",
   "created": "2023-01-01T13:37:00.000Z",
   "updated": "2023-02-01T04:20:00.000Z"
@@ -109,11 +109,7 @@ Required headers:
 
 ### GET `/api/v1/measurements`
 
-Returns all measurements.
-
-Required headers:
-
-- `Authorization` - Session token
+Returns all measurements. Does not require authentication.
 
 #### Response
 
@@ -144,11 +140,7 @@ Required headers:
 
 ### GET `/api/v1/measurements/:id`
 
-Returns a specific measurement.
-
-Required headers:
-
-- `Authorization` - Session token
+Returns a specific measurement. Does not require authentication.
 
 #### Response
 

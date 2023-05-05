@@ -15,6 +15,7 @@ use tokio_postgres::NoTls;
 use handlers::add_measurement;
 use handlers::auth_callback;
 use handlers::get_all_measurements;
+use handlers::get_current_user;
 use handlers::get_measurement;
 use handlers::get_signin_url;
 
@@ -51,6 +52,7 @@ async fn main() -> std::io::Result<()> {
                 config: config.clone(),
             }))
             .service(web::resource("/api/v1/auth").route(web::get().to(get_signin_url)))
+            .service(web::resource("/api/v1/user").route(web::get().to(get_current_user)))
             .service(web::resource("/api/v1/auth/callback").route(web::get().to(auth_callback)))
             .service(
                 web::resource("/api/v1/measurements")
