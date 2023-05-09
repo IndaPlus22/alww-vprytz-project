@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "mobile-app",
+    "slug": "osqspeed",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./lib/assets/images/icon.png",
+    "scheme": "osqspeed",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./lib/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a7c6536b-21ae-4d19-a467-b49d65a5722b"
+      }
+    },
+    "owner": "alww"
+  }
+}
