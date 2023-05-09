@@ -1,5 +1,9 @@
-import profile from "../assets/profile/ap.jpg";
+import profile from "../assets/images/ap.jpg";
+import wip from "../assets/images/wip.png";
 
-export default {
+const Images: { [key: string]: string } = {
   profile,
+  wip
 };
+
+export default Images;

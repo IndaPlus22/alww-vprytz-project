@@ -4,6 +4,7 @@ import { SPEED_URL, API } from '@env'
 
 import * as Location from 'expo-location';
 import { checkImage } from "../lib/utils";
+import * as WebBrowser from "expo-web-browser";
 
 interface PostData {
   lat: number;
@@ -17,6 +18,7 @@ interface ResponseData {
   id: number;
   lat: number;
   lon: number;
+  altitude: number;
   speed: number;
   latency: number;
   created_at: string;
@@ -36,7 +38,7 @@ export interface iBuilding {
   updated_at: string;
 }
 
-export const useNetworkTest = (endpoint: string) => {
+export const useNetworkTest = (endpoint: string, token: string) => {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [downloadSpeed, setDownloadSpeed] = useState<number>(0);
   const [latency, setLatency] = useState<number>(0);
@@ -97,10 +99,14 @@ export const useNetworkTest = (endpoint: string) => {
         }
       }
     };
-
+    console.log(token)
     const sendPost = async (data: PostData) => {
       try {
-        const response = await axios.post(`${API}/measurements`, data);
+        const response = await axios.post(`${API}measurements`, data, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
         console.log(response.data);
       } catch (error) {
         console.error('Error sending POST request:', error);
@@ -117,7 +123,7 @@ export const useNetworkTest = (endpoint: string) => {
   if (error) {
     //WIP
   }
-
+  console.log(downloadSpeed)
   return { downloadSpeed, latency, location, errorMsg };
 };
 
@@ -126,69 +132,95 @@ export const useFetchSpeeds = (id: string) => {
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // const options = {
-  //   method: 'GET',
-  //   url: `${EXPO_ROUTER_APP_API}/measurements${id ? `/${id}` : ''}}`,
-  // };
+  const options = {
+    method: 'GET',
+    url: `${API}measurements${id ? `/${id}` : ''}`,
+  };
 
-  // useEffect(() => {
-  //   const source = axios.CancelToken.source();
+  useEffect(() => {
+    const source = axios.CancelToken.source();
 
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await axios.request({
-  //         ...options,
-  //         cancelToken: source.token,
-  //       });
-  //       setData(response.data);
-  //     } catch (err) {
-  //       if (axios.isCancel(err)) {
-  //         console.log('Request canceled', err);
-  //       } else {
-  //         setError(err as Error);
-  //         console.error(err);
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.request({
+          ...options,
+          cancelToken: source.token,
+        });
+        setData(response.data);
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          console.log('Request canceled', err);
+        } else {
+          setError(err as Error);
+          console.error(err);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchData();
+    fetchData();
 
-  //   return () => {
-  //     source.cancel('Component unmounted, canceling request.');
-  //   };
-  // }, []);
+    return () => {
+      source.cancel('Component unmounted, canceling request.');
+    };
+  }, []);
 
-  // if (error) {
-  //   //WIP
-  // }
-
-  let buildings = parseData(data)
+  if (error) {
+    //WIP
+  }
+  console.log(data)
+  let buildings = parseBuildingData(data)
 
   return { buildings, error, loading };
 };
 
-const parseData = (unParsedData: ResponseData[]) => {
-  //convert lat lon to address
-  //infer building name from address
-  //infer floor from altitude
-  //return array of buildings
+const parseBuildingData = (data: any): iBuilding[] => {
+  return data.map((building: any) => ({
+    id: building.id.toString(),
+    name: "KTH",
+    image: "",
+    address: "Unfucking know",
+    floor: building.altitude.toFixed(2),
+    lat: building.lat.toFixed(2),
+    lon: building.lon.toFixed(2),
+    speed: building.speed.toFixed(2),
+    latency: building.latency.toFixed(2),
+    updated_at: building.updated,
+  }));
+};
 
-  let iBuildings: iBuilding[] = []
-  return exampleBuildings
-}
 
-const exampleBuildings: iBuilding[] = Array.from({ length: 10 }, (_, i) => ({
-  id: `id${i + 1}`,
-  name: `Building ${i + 1}`,
-  image: `https://example.com/building${i + 1}.jpg`,
-  address: `100${i + 1} Main St`,
-  lat: 59.34 + i / 100,
-  lon: 18.12 + i / 100,
-  floor: i,
-  speed: 100 + i,
-  latency: 10 + i,
-  updated_at: new Date().toISOString(),
-}));
+
+const useURL = () => {
+  const [url, setUrl] = useState<string>("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API}auth`);
+        setUrl(response.data.url);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return url;
+};
+
+export const auth = () => {
+  const url = useURL();
+
+  const handleLogin = async () => {
+    if (url) {
+      const result = await WebBrowser.openAuthSessionAsync(url, "osqspeed://");
+      // Handle the result of the auth session here
+    }
+  };
+
+  return handleLogin;
+};

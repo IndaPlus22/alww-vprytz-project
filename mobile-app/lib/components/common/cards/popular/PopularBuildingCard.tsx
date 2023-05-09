@@ -8,6 +8,7 @@ import {
 } from "./popularBuildingCard.style";
 import { checkImage } from "../../../../utils";
 import { iBuilding } from "../../../../../API/fetch";
+import { icons } from "../../../../constants";
 
 interface PopularBuildingCardProps {
   building: iBuilding;
@@ -20,31 +21,34 @@ const PopularBuildingCard: React.FC<PopularBuildingCardProps> = ({
   selectedBuilding,
   handleCardPress,
 }) => {
-  const main = async () => {
-    try {
-      building.image = await checkImage(building.image);
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  };
+  // const main = async () => {
+  //   try {
+  //     building.image = await checkImage(building.image);
+  //   } catch (err) {
+  //     console.error("Error:", err);
+  //   }
+  // };
 
-  main();
+  // main();
 
   return (
     <TouchableOpacity
       style={container(selectedBuilding, building.name)}
       onPress={() => handleCardPress(building)}
     >
-      <TouchableOpacity style={imgContainer(selectedBuilding, building.name)}>
+      <TouchableOpacity
+        onPress={() => handleCardPress(building)}
+        style={imgContainer(selectedBuilding, building.name)}
+      >
         <Image
-          source={{ uri: building.image }}
+          source={icons.default_logo}
           resizeMode="contain"
           style={styles.image}
         />
       </TouchableOpacity>
 
       <Text style={styles.name} numberOfLines={1}>
-        {building.name}, floor {building.floor}
+        XYZ: {building.lat} {building.lon} {building.floor}
       </Text>
 
       <View style={styles.infoContainer}>

@@ -1,4 +1,5 @@
 import * as FileSystem from 'expo-file-system';
+import { icons } from '../constants';
 
 export const checkImage = async (path: string): Promise<string> => {
     try {
@@ -7,9 +8,9 @@ export const checkImage = async (path: string): Promise<string> => {
         if (result.exists) {
             return path;
         } else {
-            return '/Users/albinww/Programming/Github/testing/expo/mobile-app/lib/assets/icons/KTH-logo.png';
+            return icons.default_logo;
         }
     } catch (err) {
-        return '/Users/albinww/Programming/Github/testing/expo/mobile-app/lib/assets/icons/KTH-logo.png';
+        return icons.default_logo;
     }
 }

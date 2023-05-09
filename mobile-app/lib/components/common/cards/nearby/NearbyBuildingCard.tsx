@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { styles } from "./nearbyBuildingCard.style";
 import { checkImage } from "../../../../utils";
 import { iBuilding } from "../../../../../API/fetch";
+import { icons } from "../../../../constants";
 
 interface NearbyBuildingCardProps {
   building: iBuilding;
@@ -13,24 +14,27 @@ const NearbyBuildingCard: React.FC<NearbyBuildingCardProps> = ({
   building,
   handleNavigate,
 }) => {
-  const main = async () => {
-    try {
-      building.image = await checkImage(building.image);
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  };
+  // const main = async () => {
+  //   try {
+  //     building.image = await checkImage(building.image);
+  //   } catch (err) {
+  //     console.error("Error:", err);
+  //   }
+  // };
 
-  main();
+  // main();
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => handleNavigate(building)}
     >
-      <TouchableOpacity style={styles.logoContainer}>
+      <TouchableOpacity
+        onPress={() => handleNavigate(building)}
+        style={styles.logoContainer}
+      >
         <Image
-          source={{ uri: building.image }}
+          source={icons.default_logo}
           resizeMode="contain"
           style={styles.image}
         />
@@ -39,7 +43,7 @@ const NearbyBuildingCard: React.FC<NearbyBuildingCardProps> = ({
       <View style={styles.textContainer}>
         <View style={styles.infoRow}>
           <Text style={styles.name} numberOfLines={1}>
-            {building.name}
+            XY: {building.lat} {building.lon}
           </Text>
           <Text style={styles.details} numberOfLines={1}>
             floor {building.floor}

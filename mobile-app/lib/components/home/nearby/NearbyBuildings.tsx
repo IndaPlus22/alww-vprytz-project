@@ -30,7 +30,7 @@ const NearbyBuildings = () => {
             <NearbyBuildingCard
               building={item}
               key={item.id}
-              handleNavigate={() => router.push(`/building-details/${item.id}`)}
+              handleNavigate={() => router.push(`/details/${item.id}`)}
             />
           ))
         )}
