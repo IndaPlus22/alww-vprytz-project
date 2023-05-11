@@ -6,6 +6,10 @@ This document describes the specification for a project in [DD1349](https://www.
 
 "**Osqspeed**": measurement server and app/program on phone. For users who are on the KTH campus, the program/app measures speed and latency once a minute and reports this together with location (available via API through the phone) to a server. Collected data is used to create a coverage map (Mb/s on average in different locations).
 
+## Architecture overview
+
+![Architecture overview](./architecture.png)
+
 ## Tech stack
 
 - Mobile app: React Native with TypeScript
