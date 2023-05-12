@@ -17,6 +17,18 @@
         "projectId": "a7c6536b-21ae-4d19-a467-b49d65a5722b"
       }
     },
-    "owner": "alww"
+    "owner": "alww",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a7c6536b-21ae-4d19-a467-b49d65a5722b"
+    },
+    "android": {
+      "package": "com.alww.osqspeed"
+    },
+    "ios": {
+      "bundleIdentifier": "com.alww.osqspeed"
+    }
   }
 }
